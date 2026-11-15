@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://djeb0cuoeaeet"]
+
+[ext_resource type="Script" uid="uid://c301syk1gkh5w" path="res://player.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://tes8lmlmccs3" path="res://enemy.gd" id="1_1bvp3"]
+[ext_resource type="Texture2D" uid="uid://cxp56ty8f1mtv" path="res://image2.webp" id="2_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://fkfg0jt8ncel" path="res://baton.webp" id="3_h2yge"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h2yge"]
+radius = 53.009434
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1bvp3"]
+radius = 242.04007
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ise4a"]
+radius = 263.07623
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_arc4l"]
+radius = 115.32421
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x6c2p"]
+radius = 89.08984
+
+[node name="Node2D" type="Node2D" unique_id=991054631]
+position = Vector2(133, 10)
+
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=322865539]
+script = ExtResource("1_1bvp3")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=223223422]
+position = Vector2(268, 244)
+scale = Vector2(0.528, 0.472)
+texture = ExtResource("2_0xm2m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=740215576]
+position = Vector2(274, 241)
+shape = SubResource("CircleShape2D_h2yge")
+
+[node name="ProgressBar" type="ProgressBar" parent="Enemy" unique_id=1942132202]
+offset_right = 4.0
+offset_bottom = 27.0
+offset_transform_enabled = true
+min_value = 3.0
+value = 3.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1446096655]
+script = ExtResource("1_0xm2m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=615613455]
+position = Vector2(666.0001, 270)
+scale = Vector2(0.31187487, 0.33750004)
+shape = SubResource("CircleShape2D_1bvp3")
+
+[node name="HeldBaton" type="Sprite2D" parent="Player" unique_id=235451070]
+position = Vector2(682, 267)
+scale = Vector2(0.31187487, 0.33750004)
+texture = ExtResource("3_h2yge")
+
+[node name="Player" type="Sprite2D" parent="Player/HeldBaton" unique_id=2125569795]
+position = Vector2(-1510.221, 44.444458)
+
+[node name="Area2D" type="Area2D" parent="Player/HeldBaton" unique_id=557232178]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/HeldBaton/Area2D" unique_id=686897448]
+position = Vector2(-35.27057, 11.851868)
+shape = SubResource("CircleShape2D_ise4a")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1149935247]
+position = Vector2(802, 313)
+scale = Vector2(1.0199999, 1.128)
+texture = ExtResource("2_0xm2m")
+
+[node name="PickupArea" type="Area2D" parent="Player" unique_id=1038095981]
+position = Vector2(-10, 11)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/PickupArea" unique_id=1841547592]
+position = Vector2(815, 294)
+scale = Vector2(1.0199999, 1.128)
+shape = SubResource("CircleShape2D_arc4l")
+
+[node name="baton" type="Area2D" parent="." unique_id=1229191762 groups=["baton"]]
+unique_name_in_owner = true
+visible = false
+position = Vector2(647, 293)
+
+[node name="Sprite2D" type="Sprite2D" parent="baton" unique_id=1074832026]
+position = Vector2(-545.99994, 30.000002)
+scale = Vector2(0.35893443, 0.3339358)
+texture = ExtResource("3_h2yge")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="baton" unique_id=166931027]
+position = Vector2(16, -25)
+shape = SubResource("CircleShape2D_x6c2p")
+
+[connection signal="area_entered" from="Player/HeldBaton/Area2D" to="Player" method="_on_hit_enemy"]
+[connection signal="body_entered" from="Player/HeldBaton/Area2D" to="Player" method="_on_hit_enemy"]
+[connection signal="area_entered" from="Player/PickupArea" to="Player" method="_on_pickup_area_area_entered"]
